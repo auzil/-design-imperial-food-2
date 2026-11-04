@@ -1,0 +1,711 @@
+<!doctype html>
+<html data-kit-panel="off" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pizza a sushi s rozvozem, Praha 4 | Imperial Food</title>
+<meta name="description" content="Pizza a sushi s rozvozem z Chodova. Objednej přes Wolt, foodora nebo Bolt Food, nebo si to vyzvedni.">
+<meta name="theme-color" content="#1A120D">
+<link rel="alternate" hreflang="cs" href="../index.html">
+<link rel="alternate" hreflang="en" href="../en/index.html">
+<link rel="alternate" hreflang="ru" href="../ru/index.html">
+<link rel="alternate" hreflang="x-default" href="../index.html">
+<script>if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { const r = document.documentElement;
+  r.classList.add("js-motion"); setTimeout(() => r.classList.remove("js-motion"), 4000); }</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@700..900&family=Sofia+Sans:wght@400..800&display=swap">
+<link rel="preload" as="image" href="../media/hero-mobile-1.webp" media="(max-width: 47.99rem)">
+<link rel="preload" as="image" href="../media/hero-wide-cc.webp" media="(min-width: 48rem)">
+<link rel="stylesheet" href="../kit/kit.css">
+<style>
+:root {
+  /* colour: one warm brown-black base, two accent pairs (pizza / sushi) */
+  --color-ink: #1A120D;
+  --color-ink-2: #261A12;
+  --color-ink-3: #34241A;
+  --color-paper: #FFF3E6;
+  --color-muted: #CDBEAF;
+  --color-line: #FFF3E629;
+  --color-tomato: #D42E18;
+  --color-fire: #FF7A1F;
+  --color-salmon: #FF8F6E;
+  --color-matcha: #9CBF5A;
+
+  /* type */
+  --font-display: "Sofia Sans Extra Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "Sofia Sans", system-ui, sans-serif;
+  --text-display: clamp(2.75rem, 12.5vw, 7.5rem);
+  --text-display--line-height: .9;
+  --text-display--letter-spacing: 0em;
+  --text-display--font-weight: 900;
+  --text-h2: clamp(4.75rem, 30vw, 9.5rem);
+  --text-h2--line-height: .82;
+  --text-h2--letter-spacing: -.01em;
+  --text-h2--font-weight: 900;
+  --text-h3: clamp(1.375rem, 1.7vw, 1.75rem);
+  --text-h3--line-height: 1;
+  --text-h3--letter-spacing: 0em;
+  --text-h3--font-weight: 800;
+  --text-body-lg: clamp(1.125rem, 1.3vw, 1.375rem);
+  --text-body-lg--line-height: 1.35;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.5;
+  --text-ui: 1.25rem;
+  --text-ui--font-weight: 800;
+  --text-fine: .9375rem;
+
+  /* layout */
+  --gutter: clamp(1rem, 3.5vw, 3rem);
+  --container-page: 90rem;
+  --container-content: 36rem;
+  --header-h: 3.5rem;
+  --radius: 0;
+  --radius-pill: 999px;
+  --radius-card: 1.25rem;
+  --radius-chip: .75rem;
+  --radius-sheet: 1.5rem;
+  --color-tint: #FFF3E614;
+  --color-tint-2: #FFF3E61F;
+  --space-1: .5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-section: clamp(3.5rem, 6.25vw, 5.75rem);
+  --btn-h: 3rem;
+
+  /* motion (CSS side; JS tokens live in motion.js) */
+  --motion-fast: .3s;
+  --motion-base: .45s;
+  --motion-pan: .9s;
+  --motion-wipe: 1s;
+  --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
+}
+@media (min-width: 64rem) { :root { --header-h: 4.5rem; --text-fine: 1rem; } }
+
+/* accent aliases: body (hero, bar, chooser) follows the switch; menu sections and app links carry their own */
+[data-cuisine="pizza"] { --accent: var(--color-tomato); --accent-ink: var(--color-paper); --accent-word: var(--color-fire); }
+[data-cuisine="sushi"] { --accent: var(--color-salmon); --accent-ink: var(--color-ink); --accent-word: var(--color-salmon); }
+
+html.js-motion [data-motion-hide] { visibility: hidden; }
+
+
+body {
+  background: var(--color-ink) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .95  0 0 0 0 .9  0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  color: var(--color-paper);
+}
+a { text-underline-offset: .2em; text-decoration-thickness: 1px; }
+.fine { font-size: var(--text-fine); color: var(--color-muted); line-height: 1.4; }
+.upper { text-transform: uppercase; }
+:focus-visible { outline: 2px solid var(--color-paper); outline-offset: 3px; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: var(--btn-h); padding: 0 1.75rem; border: 0; border-radius: var(--radius-pill); cursor: pointer; text-decoration: none;
+  background: var(--color-paper); color: var(--color-ink);
+  font-family: var(--font-sans); font-size: 1.0625rem; font-weight: 700; line-height: 1;
+  transition: background-color var(--motion-fast), color var(--motion-fast);
+}
+.btn:hover { background: var(--color-fire); color: var(--color-ink); }
+.btn--accent { background: var(--accent); color: var(--accent-ink); }
+.btn--accent:hover { background: var(--color-paper); color: var(--color-ink); }
+.btn--fire { background: var(--color-fire); color: var(--color-ink); }
+.btn--fire:hover { background: var(--color-paper); }
+
+.apps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .375rem; max-width: 34rem; }
+.app {
+  display: flex; align-items: center; justify-content: center; min-height: var(--btn-h); padding: 0 .5rem; border-radius: var(--radius-pill);
+  background: var(--accent); color: var(--accent-ink); text-decoration: none; white-space: nowrap;
+  font-family: var(--font-sans); font-size: 1.1875rem; font-weight: 700; line-height: 1;
+  transition: background-color var(--motion-fast), color var(--motion-fast);
+}
+.app:hover { background: var(--color-paper); color: var(--color-ink); }
+.apps--stack { grid-template-columns: 1fr; gap: .5rem; max-width: none; }
+.apps--stack .app { min-height: 3.5rem; font-size: 1.25rem; }
+
+/* ---------- pizza / sushi switch ---------- */
+.switch { display: flex; gap: .5rem; max-width: 34rem; margin: 0; padding: 0; border: 0; }
+.switch__opt {
+  position: relative; flex: 1 1 0; display: flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 2.75rem; border-radius: var(--radius-pill); cursor: pointer; color: var(--color-paper);
+  font-family: var(--font-sans); font-size: 1.0625rem; font-weight: 700; line-height: 1;
+  background: color-mix(in srgb, var(--chip) 26%, var(--color-ink-3)); /* idle: reads as a button on any photo */
+  transition: color var(--motion-fast), background-color var(--motion-fast);
+}
+.switch__opt::before { content: ""; width: .625rem; height: .625rem; border-radius: 50%; background: var(--chip); }
+.switch__opt--pizza { --chip: var(--color-tomato); }
+.switch__opt--sushi { --chip: var(--color-salmon); }
+.switch__opt input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.switch__opt:has(input:checked) { background: var(--accent); color: var(--accent-ink); }
+.hero .switch__opt--sushi:has(input:checked) { background: var(--color-salmon); } /* hero: selected Sushi */
+.switch__opt:has(input:checked)::before { background: currentColor; }
+.switch__opt:has(input:focus-visible) { outline: 2px solid var(--color-fire); outline-offset: 2px; }
+
+/* ---------- status ---------- */
+.status { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; font-size: 1rem; line-height: 1.2; }
+.status__dot { flex: none; width: .625rem; height: .625rem; border-radius: 50%; background: var(--color-matcha); }
+[data-status][data-open="false"] .status__dot { background: var(--color-tomato); }
+
+/* ---------- header ---------- */
+.header { position: fixed; inset: 0 0 auto; z-index: 40; height: var(--header-h); transition: background-color var(--motion-fast); }
+.header.is-solid { background: var(--color-ink); }
+.header__inner { height: 100%; display: flex; align-items: center; gap: var(--space-2); }
+.logo { display: block; color: var(--color-paper); text-decoration: none; line-height: 0; }
+.wm__svg { display: block; height: auto; overflow: visible; font-family: "Forum", "Times New Roman", serif; font-weight: 400; fill: currentColor; }
+.logo .wm__svg { width: 7.5rem; }
+.menu-overlay .logo .wm__svg { width: 6.5rem; }
+.footer__brand { display: block; width: 9rem; color: var(--color-paper); text-decoration: none; line-height: 0; margin-bottom: var(--space-4); }
+.footer__brand .wm__svg { width: 100%; }
+.nav { display: none; }
+.nav a, .langs a {
+  font-family: var(--font-sans); font-weight: 700; font-size: 1rem; text-decoration: none; line-height: 1;
+}
+.langs { display: flex; margin-left: auto; gap: .125rem; padding: .125rem; border-radius: var(--radius-pill); background: var(--color-tint); }
+.langs a { display: grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; border-radius: var(--radius-pill); color: var(--color-muted); text-transform: uppercase; }
+.langs a[aria-current] { color: var(--color-paper); background: var(--color-tint-2); }
+.langs a:hover { color: var(--color-paper); }
+.header__order { display: none; }
+.burger { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
+.burger span { display: block; width: 1.5rem; height: 2px; background: var(--color-paper); box-shadow: 0 -7px var(--color-paper), 0 7px var(--color-paper); }
+@media (min-width: 64rem) {
+  .nav { display: flex; gap: clamp(1.25rem, 2.2vw, 2.25rem); margin-left: clamp(2rem, 5vw, 5rem); }
+  .nav a:hover { color: var(--color-fire); }
+  .langs { margin-left: auto; }
+  .header__order { display: inline-flex; min-height: 2.75rem; padding: 0 1.5rem; }
+  .burger { display: none; }
+  .logo .wm__svg { width: 9rem; }
+}
+
+/* ---------- hero ---------- */
+.hero { position: relative; overflow: hidden; --photo-h: max(13rem, min(calc(100svh - var(--stack-h, 26rem) + 2.5rem), 82vw)); }
+/* Mobile: the photo takes the space above the text stack (site.js measures it into --stack-h), capped at the
+   food band of the image, so the food sits right on top of the copy on any phone height (no dead counter band);
+   on tall phones the facts band moves up into the fold instead. */
+.hero__media {
+  position: absolute; inset: 0 0 auto; height: var(--photo-h); overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 4.5rem), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 4.5rem), transparent);
+}
+.hero__media img { object-position: 50% 32%; }
+.hero__media::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 75%, transparent) 0%, transparent 14%);
+}
+/* Switch → photo: the hero is zoomed on pizza from first paint (no load animation); a tap only moves the focus (animated). */
+.hero__pan {
+  width: 100%; height: 100%; translate: var(--tx, 0) 0; transform: scale(var(--zoom, 1)); transform-origin: var(--focus, 50% 50%);
+}
+.hero[data-live] .hero__pan { transition: transform var(--motion-pan) var(--ease-out-expo), translate var(--motion-pan) var(--ease-out-expo), transform-origin var(--motion-pan) var(--ease-out-expo); }
+.hero__pan img { width: 100%; height: 100%; object-fit: cover; }
+.hero[data-picked] { --zoom: 1.22; }
+.hero[data-picked][data-cuisine="pizza"] { --focus: 30% 52%; }
+.hero[data-picked][data-cuisine="sushi"] { --focus: 80% 52%; }
+.hero__order { font-family: var(--font-display); font-weight: 900; font-size: 1.375rem; line-height: 1; text-transform: uppercase; margin-bottom: -.375rem; color: var(--accent-word); }
+.hero__main { position: relative; padding-top: calc(var(--photo-h) - 2.5rem); }
+.hero__body { display: grid; gap: .875rem; padding-bottom: 1.25rem; justify-items: start; }
+.hero__body > .switch, .hero__body > .apps { width: 100%; }
+.hero__title { text-transform: uppercase; margin-top: .125rem; }
+.hero__title .line { display: block; } /* one phrase per line now that the reveal split is gone */
+.hero__line { color: var(--color-paper); max-width: 30rem; }
+.hero__pickup { font-weight: 700; }
+.hero__prices { margin-top: -.5rem; }
+.hero__pickup a { text-decoration: underline; }
+.hero__hint { font-size: var(--text-fine); color: var(--color-muted); }
+
+.facts { list-style: none; margin-block: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--space-2); }
+.facts li { padding: 1rem 0 1.125rem; border-top: 1px solid var(--color-line); }
+.facts__h { font-family: var(--font-display); font-weight: 900; font-size: 1.375rem; line-height: 1; text-transform: uppercase; margin-bottom: .375rem; }
+.facts__h a { text-decoration: none; }
+.facts__h a:hover { color: var(--color-fire); }
+.facts p:last-child { font-size: var(--text-fine); color: var(--color-muted); line-height: 1.35; }
+
+@media (min-width: 48rem) {
+  .hero { min-height: 100svh; display: grid; grid-template-rows: 1fr auto; }
+  .hero__media { inset: 0; height: auto; min-height: 0; -webkit-mask-image: none; mask-image: none; }
+  .hero__pan img { object-position: 60% 50%; } /* keeps the sushi tray in frame while moving the pizza off the headline */
+  .hero[data-picked][data-cuisine="pizza"] { --focus: 52% 44%; --zoom: 1.14; --tx: 7%; } /* pizza clears the headline */
+  .hero[data-picked][data-cuisine="sushi"] { --focus: 86% 52%; }
+  .hero__media::after {
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--color-ink) 90%, transparent) 0%, color-mix(in srgb, var(--color-ink) 68%, transparent) 38%, transparent 62%),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 70%, transparent) 0%, transparent 18%, transparent 70%, color-mix(in srgb, var(--color-ink) 85%, transparent) 100%);
+  }
+  .hero__main { display: flex; flex-direction: column; justify-content: flex-end; padding-top: var(--header-h); padding-bottom: var(--space-4); }
+  .hero__body { gap: 1rem; padding-bottom: 0; }
+  .hero__title { margin-block: .25rem .125rem; }
+  .hero__prices { display: none; } /* the facts band carries it on desktop */
+  .facts-band { position: relative; background: color-mix(in srgb, var(--color-ink-2) 90%, transparent); box-shadow: inset 0 1px var(--color-line); }
+  .facts { grid-template-columns: repeat(4, 1fr); column-gap: var(--space-4); }
+  .facts li { border-top: 0; padding: 1.25rem 0 1.5rem; }
+}
+
+/* ---------- menu sections (pizza / sushi) ---------- */
+.menu { padding-block: var(--space-section) calc(var(--space-section) * .75); }
+.menu + .menu { padding-top: calc(var(--space-section) * .5); }
+.menu__inner { display: grid; grid-template-areas: "word" "line" "grid" "order"; row-gap: var(--space-3); }
+.menu__panel { display: contents; }
+.menu__word { grid-area: word; color: var(--accent-word); text-transform: uppercase; }
+.menu__line { grid-area: line; color: var(--color-muted); max-width: var(--container-content); margin-top: -.25rem; }
+.menu__grid { grid-area: grid; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem .75rem; }
+.menu__order { grid-area: order; display: grid; gap: .75rem; padding-top: var(--space-2); }
+.menu__order-label { font-family: var(--font-display); font-weight: 900; font-size: 1.625rem; line-height: 1; text-transform: uppercase; }
+@media (min-width: 64rem) {
+  .menu__inner { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); grid-template-areas: "panel grid"; column-gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
+  .menu__panel { grid-area: panel; display: flex; flex-direction: column; gap: var(--space-3); position: sticky; top: calc(var(--header-h) + 2rem); }
+  .menu__line { margin-top: 0; }
+  .menu__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.75rem 1.25rem; }
+  .menu__order { padding-top: var(--space-3); }
+  .menu--flip .menu__inner { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); grid-template-areas: "grid panel"; }
+}
+
+.dish { display: grid; gap: .4375rem; align-content: start; }
+.dish__photo { aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-card); background: var(--color-ink-2); margin-bottom: .375rem; }
+.dish__photo img { width: 100%; height: 100%; object-fit: cover; }
+.dish__name { text-transform: uppercase; }
+.dish__line { font-size: var(--text-fine); color: var(--color-muted); line-height: 1.35; }
+.dish__meta { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .875rem; font-size: .9375rem; font-weight: 700; line-height: 1.3; }
+.tag { display: inline-flex; align-items: center; gap: .375rem; padding: .25rem .625rem; border-radius: var(--radius-chip); background: var(--color-tint); }
+.tag::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--tag); }
+.tag--spicy { --tag: var(--color-fire); }
+.tag--veg { --tag: var(--color-matcha); }
+
+/* ---------- combos ---------- */
+.combos { background: var(--color-ink-2); padding-block: var(--space-section); }
+.combos__head { display: grid; gap: var(--space-2); margin-bottom: var(--space-4); justify-items: start; }
+.combos__word { text-transform: uppercase; }
+.combos__line { color: var(--color-muted); max-width: var(--container-content); }
+.combos__list[role="list"] {
+  list-style: none; margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter);
+  display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: .75rem;
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none;
+}
+.combo { scroll-snap-align: start; display: grid; gap: .4375rem; align-content: start; }
+.combo__photo { aspect-ratio: 3 / 2; overflow: hidden; border-radius: var(--radius-card); margin-bottom: .375rem; background: var(--color-ink); }
+.combo__photo img { width: 100%; height: 100%; object-fit: cover; }
+.combo__name { text-transform: uppercase; font-size: calc(var(--text-h3) * 1.35 * var(--heading-scale)); }
+.combo__line { color: var(--color-muted); }
+.combos__office { margin-top: var(--space-4); color: var(--color-muted); max-width: 40rem; }
+.combos__office a { color: var(--color-paper); white-space: nowrap; }
+@media (min-width: 64rem) {
+  .combos__head { grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: var(--space-4); }
+  .combos__head > .btn { grid-column: 2; grid-row: 1 / span 2; }
+  .combos__list[role="list"] { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; margin: 0; padding: 0; overflow: visible; }
+}
+
+/* ---------- pickup ---------- */
+.pickup { padding-block: var(--space-section); }
+.pickup__inner { display: grid; gap: var(--space-4); }
+.pickup__word { text-transform: uppercase; }
+.t-h2.is-long { font-size: calc(var(--text-h2) * .52 * var(--heading-scale)); line-height: .88; }
+.pickup__line { margin-top: var(--space-2); max-width: 30rem; }
+.pickup__facts { margin: var(--space-4) 0 0; display: grid; gap: var(--space-3); }
+.pickup__facts dt { font-weight: 700; color: var(--color-muted); margin-bottom: .25rem; }
+.pickup__facts dd { margin: 0; }
+.pickup__street { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(2rem, 3.2vw, 2.75rem); line-height: 1; text-transform: uppercase; }
+.pickup__hours { font-family: var(--font-display); font-weight: 800; font-size: 1.75rem; line-height: 1; }
+.pickup__maps { margin-top: var(--space-3); }
+.pickup__visual { position: relative; }
+.map { aspect-ratio: 4 / 3; background: var(--color-ink-2); overflow: hidden; border-radius: var(--radius-card); }
+.map svg { width: 100%; height: 100%; }
+.m-block { fill: var(--color-ink-3); }
+.m-street { stroke: var(--color-ink); stroke-width: 16; fill: none; }
+.m-main { stroke: var(--color-ink); stroke-width: 36; fill: none; }
+.m-tram { stroke: var(--color-muted); stroke-width: 2; stroke-dasharray: 10 9; fill: none; opacity: .55; }
+.m-park { fill: var(--color-matcha); opacity: .2; }
+.m-label { fill: var(--color-muted); font-family: var(--font-sans); font-weight: 700; font-size: 17px; }
+.m-pin { fill: var(--color-tomato); }
+.m-halo { fill: var(--color-tomato); opacity: .22; }
+.m-tag { fill: var(--color-paper); }
+.m-tag-t { fill: var(--color-ink); font-family: var(--font-display); font-weight: 900; font-size: 28px; text-transform: uppercase; }
+.m-tag-s { fill: var(--color-ink); font-family: var(--font-sans); font-weight: 600; font-size: 17px; }
+.pickup__door { margin-top: .75rem; aspect-ratio: 3 / 2; overflow: hidden; border-radius: var(--radius-card); }
+.pickup__door img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+@media (min-width: 64rem) {
+  .pickup__inner { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
+  .pickup__visual { padding-bottom: 5rem; }
+  .pickup__door { position: absolute; right: 0; bottom: 0; width: 46%; margin: 0; box-shadow: 0 0 0 .5rem var(--color-ink); }
+}
+
+/* ---------- sign-up ---------- */
+.signup { background: var(--color-ink-2); padding-block: var(--space-section); }
+.signup__inner { display: grid; gap: var(--space-4); align-items: center; }
+.signup__photo { aspect-ratio: 2 / 1; overflow: hidden; border-radius: var(--radius-card); }
+.signup__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+.signup__word { text-transform: uppercase; }
+.signup__line { margin-top: var(--space-2); max-width: 32rem; }
+.form { margin-top: var(--space-4); display: grid; gap: var(--space-2); max-width: 36rem; }
+.form label.field-label { display: block; font-weight: 700; margin-bottom: .5rem; }
+.form__fields { display: grid; gap: var(--space-2); }
+.form__fields > .btn { justify-self: start; min-width: 14rem; }
+.input {
+  width: 100%; min-height: var(--btn-h); padding: 0 1.5rem; border: 0; background: var(--color-tint-2);
+  color: var(--color-paper); font-size: 1.0625rem; border-radius: var(--radius-pill);
+}
+.input::placeholder { color: var(--color-muted); opacity: .7; }
+.input:focus { outline: 2px solid var(--color-paper); outline-offset: 2px; }
+.input[aria-invalid="true"] { box-shadow: inset 0 0 0 2px var(--color-salmon); }
+.check { display: grid; grid-template-columns: auto 1fr; gap: .75rem; align-items: start; font-size: var(--text-fine); color: var(--color-muted); line-height: 1.4; cursor: pointer; }
+.check input { appearance: none; -webkit-appearance: none; display: grid; place-content: center; width: 1.5rem; height: 1.5rem; margin: 0; border-radius: .5rem; background: var(--color-tint-2); box-shadow: inset 0 0 0 2px var(--color-muted); cursor: pointer; }
+.check input::after { content: ""; width: .75rem; height: .4rem; margin-top: -.15rem; border-left: 3px solid var(--color-ink); border-bottom: 3px solid var(--color-ink); transform: rotate(-45deg) scale(0); }
+.check input:checked { background: var(--color-fire); box-shadow: none; }
+.check input:checked::after { transform: rotate(-45deg) scale(1); }
+.check a { color: var(--color-paper); }
+.error { color: var(--color-salmon); font-weight: 700; font-size: var(--text-fine); }
+.form__success { font-family: var(--font-display); font-weight: 800; font-size: 1.75rem; line-height: 1.1; }
+@media (min-width: 64rem) {
+  .signup__inner { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(2.5rem, 5vw, 5rem); }
+  .signup__photo { aspect-ratio: 3 / 2; }
+}
+
+/* ---------- footer ---------- */
+.footer { padding-block: var(--space-5) calc(var(--space-4) + 4.5rem); }
+.footer__grid { display: grid; gap: var(--space-3); grid-template-columns: 1fr 1fr; }
+.footer__grid h2 { font-size: 1rem; font-weight: 700; color: var(--color-muted); margin-bottom: .5rem; }
+.footer__grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .25rem; }
+.footer__grid a { text-decoration: none; }
+.footer__grid a:hover { text-decoration: underline; }
+.footer__company { grid-column: 1 / -1; }
+.footer__privacy { margin-top: .5rem; }
+.footer__langs { margin: -.25rem 0 0 -.5rem; }
+@media (min-width: 64rem) {
+  .footer { padding-bottom: var(--space-4); }
+  .footer__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .footer__company { grid-column: auto; }
+}
+
+/* ---------- full-screen menu (mobile) ---------- */
+.menu-overlay { background: var(--color-ink-2); padding: 0 var(--gutter) var(--space-4); }
+.menu-overlay__top { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); }
+.menu-overlay__close { width: 2.75rem; height: 2.75rem; border: 0; border-radius: 50%; background: var(--color-tint-2); font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.menu-overlay__links { list-style: none; margin: var(--space-4) 0; padding: 0; }
+.menu-overlay__links a { display: block; padding: .125rem 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(3.25rem, 17vw, 6rem); line-height: .95; text-transform: uppercase; text-decoration: none; }
+.menu-overlay .langs { margin: 0; gap: .5rem; }
+
+/* ---------- app chooser (dialog) ---------- */
+.chooser { display: flex; align-items: flex-end; justify-content: center; z-index: 65; }
+.chooser__backdrop { position: absolute; inset: 0; background: color-mix(in srgb, var(--color-ink) 75%, transparent); }
+.chooser__sheet {
+  position: relative; width: 100%; max-width: 30rem; display: grid; gap: 1rem;
+  padding: 1.25rem var(--gutter) calc(1.5rem + env(safe-area-inset-bottom));
+  background: var(--color-ink-2); border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+}
+.chooser__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.chooser__title { font-family: var(--font-display); font-weight: 900; font-size: 2.25rem; line-height: 1; text-transform: uppercase; }
+.chooser__close { flex: none; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 50%; background: var(--color-tint-2); font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.chooser .switch { max-width: none; }
+.chooser .apps--stack .app { border-radius: var(--radius-card); }
+.chooser [hidden] { display: none; }
+.chooser__both { display: grid; gap: .5rem; }
+.chooser__both .apps { max-width: none; margin-bottom: .5rem; }
+.chooser__label { font-family: var(--font-display); font-weight: 900; font-size: 1.375rem; line-height: 1; text-transform: uppercase; color: var(--accent-word); }
+.kit-motion [data-menu].chooser.is-opening { animation: none; }
+.kit-motion .chooser.is-opening .chooser__sheet { animation: sheet-in var(--motion-base) var(--ease-out-expo) both; }
+.kit-motion .chooser.is-opening .chooser__backdrop { animation: fade-in var(--motion-fast) ease both; }
+@keyframes sheet-in { from { transform: translateY(100%); } }
+@keyframes fade-in { from { opacity: 0; } }
+@media (min-width: 48rem) { .chooser { align-items: center; } .chooser__sheet { padding: 2rem; border-radius: var(--radius-sheet); } }
+
+/* ---------- sticky order bar (mobile) ---------- */
+.bar { left: .75rem; right: .75rem; bottom: calc(.75rem + env(safe-area-inset-bottom)); display: flex; align-items: center; gap: .75rem; padding: .5rem .5rem .5rem 1.25rem; border-radius: 0; background: var(--color-ink-3); box-shadow: 0 .5rem 1.5rem #0006; }
+.bar__status { flex: 1; min-width: 0; font-size: .9375rem; }
+.bar__btn { min-height: 3rem; padding: 0 1.5rem; }
+</style>
+  <meta name="robots" content="noindex">
+  <meta name="kit-source" content="dark-kitchen c-custom">
+  <meta property="og:title" content="Pizza a sushi s rozvozem, Praha 4 | Imperial Food">
+  <meta property="og:description" content="Pizza a sushi s rozvozem z Chodova. Objednej přes Wolt, foodora nebo Bolt Food, nebo si to vyzvedni.">
+  <meta property="og:image" content="og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body data-cuisine="pizza">
+<a class="k-skip btn" href="#pizza" data-i18n="skip">Přeskočit na obsah</a>
+
+<!-- Brand lockup, reused via <use>. PLACEHOLDER crown: simple inline SVG drawn to echo the storefront crown; replace with the owner's real logo file (see TODO-OWNER.md). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="wm-lock" viewBox="0 0 124 54">
+  <g fill="currentColor"><path d="M50 11.5 47 3l6 4.2L62 1l9 6.2L77 3l-3 8.5z"/><circle cx="47" cy="2.6" r="1.2"/><circle cx="62" cy=".9" r="1.2"/><circle cx="77" cy="2.6" r="1.2"/><rect x="50" y="12.6" width="24" height="1"/></g>
+  <text x="0" y="31" font-size="17" textLength="124" lengthAdjust="spacing">IMPERIAL</text><text x="31" y="52" font-size="17" textLength="62" lengthAdjust="spacing">FOOD</text>
+</symbol></svg>
+<header class="header" data-header>
+  <div class="header__inner k-container">
+    <a class="logo" href="#top" aria-label="Imperial Food"><svg class="wm__svg" viewBox="0 0 124 54" aria-hidden="true"><use href="#wm-lock"/></svg></a>
+    <nav class="nav" aria-label="Menu">
+      <a href="#pizza" data-i18n="nav.pizza">Pizza</a>
+      <a href="#sushi" data-i18n="nav.sushi">Sushi</a>
+      <a href="#combos" data-i18n="nav.combos">Sety</a>
+      <a href="#pickup" data-i18n="nav.pickup">Výdej</a>
+      <a href="#signup" data-i18n="nav.gift">Dárek</a>
+    </nav>
+    <nav class="langs" data-i18n-attr="aria-label:lang.label" aria-label="Jazyk">
+      <a data-lang-link href="../index.html" hreflang="cs" lang="cs">CS</a>
+      <a data-lang-link href="../en/index.html" hreflang="en" lang="en">EN</a>
+      <a data-lang-link href="../ru/index.html" hreflang="ru" lang="ru">RU</a>
+    </nav>
+    <button class="btn btn--accent header__order" type="button" data-menu-open="chooser" aria-haspopup="dialog" aria-expanded="false" data-i18n="order">Objednat</button>
+    <button class="burger" type="button" data-menu-open="menu" aria-expanded="false" data-i18n-attr="aria-label:nav.menu" aria-label="Menu"><span></span></button>
+  </div>
+</header>
+
+<main>
+  <section id="top" class="hero" data-section="hero" data-cuisine="pizza" data-picked>
+    <div class="hero__media">
+      <div class="hero__pan">
+        <picture>
+          <source media="(min-width: 48rem)" srcset="../media/hero-wide-cc.webp" width="2400" height="1340">
+          <img data-motion="hero-photo" data-sample="true" src="../media/hero-mobile-1.webp" width="1200" height="1490" alt="Pizza v otevřené krabici a set sushi na kuchyňském pultu" data-i18n-attr="alt:hero.alt" fetchpriority="high" decoding="async">
+        </picture>
+      </div>
+    </div>
+
+    <div class="hero__main">
+      <div class="hero__body k-container">
+        <p class="status" data-status data-open="true"><span class="status__dot" aria-hidden="true"></span><span data-status-text>Otevřeno do 22:00</span></p>
+        <h1 class="t-display hero__title" data-i18n-html="hero.titleHtml"><span class="line">Co dneska:</span> <span class="line">pizza, nebo sushi?</span></h1>
+        <p class="hero__line t-body-lg" data-fill="area">Vozíme po Praze 4 a okolí.</p>
+        <fieldset class="switch">
+          <legend class="k-sr-only" data-i18n="switch.legend">Na co máš chuť?</legend>
+          <label class="switch__opt switch__opt--pizza"><input type="radio" name="cuisine" value="pizza" checked><span data-i18n="switch.pizza">Pizza</span></label>
+          <label class="switch__opt switch__opt--sushi"><input type="radio" name="cuisine" value="sushi"><span data-i18n="switch.sushi">Sushi</span></label>
+        </fieldset>
+        <p class="hero__order" data-hero-order aria-live="polite">Objednej pizzu:</p>
+        <div class="apps" data-apps="hero" data-track="hero" data-hero data-motion="hero-apps"></div>
+        <p class="hero__pickup"><a href="#pickup" data-i18n="hero.pickup">Výdej: Krejnická 2021/1, 148 00 Praha 4</a></p>
+        <p class="hero__prices fine" data-i18n="prices">Aktuální ceny a celé menu najdeš v aplikacích.</p>
+        <p class="hero__hint" data-inapp-hint data-i18n="hint.inapp" hidden>Aplikace se neotevřela? Otevři stránku v prohlížeči přes menu ⋯ vpravo nahoře.</p>
+      </div>
+    </div>
+
+    <div class="facts-band">
+      <ul class="facts k-container" role="list">
+        <li><p class="facts__h" data-i18n="facts.delivery">Rozvoz</p><p data-i18n="facts.deliveryText">Praha 4 a okolí. Přiveze ti to Wolt, foodora nebo Bolt Food.</p></li>
+        <li><p class="facts__h"><a href="#pickup" data-i18n="facts.pickup">Výdej</a></p><p data-i18n="facts.pickupText">Denně 11:00–22:00. V aplikaci zvol vyzvednutí.</p></li>
+        <li><p class="facts__h"><a href="#signup" data-i18n="facts.gift">Dárek</a></p><p data-i18n="facts.giftText">Za e-mail rolka nebo pití zdarma při výdeji.</p></li>
+        <li><p class="facts__h" data-i18n="facts.prices">Ceny</p><p data-i18n="facts.pricesText">Aktuální ceny a celé menu najdeš v aplikacích.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="pizza" class="menu" data-section="pizza" data-cuisine="pizza">
+    <div class="menu__inner k-container">
+      <div class="menu__panel">
+        <h2 class="menu__word t-h2" data-reveal="lines" data-i18n-html="pizza.titleHtml"><span class="line">Pizza</span></h2>
+        <p class="menu__line t-body-lg" data-i18n="pizza.line">Pár kousků z menu. Pizzy pečeme na 32 cm.</p>
+        <div class="menu__order">
+          <p class="menu__order-label" data-i18n="order.pizza">Objednej pizzu</p>
+          <div class="apps" data-apps="pizza" data-track="pizza"></div>
+          <p class="fine" data-i18n="prices">Aktuální ceny a celé menu najdeš v aplikacích.</p>
+        </div>
+      </div>
+      <ul class="menu__grid" data-grid="pizza" role="list"></ul>
+    </div>
+  </section>
+
+  <section id="sushi" class="menu menu--flip" data-section="sushi" data-cuisine="sushi">
+    <div class="menu__inner k-container">
+      <div class="menu__panel">
+        <h2 class="menu__word t-h2" data-reveal="lines" data-i18n-html="sushi.titleHtml"><span class="line">Sushi</span></h2>
+        <p class="menu__line t-body-lg" data-i18n="sushi.line">Rolky a sety z menu. Počet kousků vidíš u každé.</p>
+        <div class="menu__order">
+          <p class="menu__order-label" data-i18n="order.sushi">Objednej sushi</p>
+          <div class="apps" data-apps="sushi" data-track="sushi"></div>
+          <p class="fine" data-i18n="prices">Aktuální ceny a celé menu najdeš v aplikacích.</p>
+        </div>
+      </div>
+      <ul class="menu__grid" data-grid="sushi" role="list"></ul>
+    </div>
+  </section>
+
+  <section id="combos" class="combos" data-section="combos">
+    <div class="k-container">
+      <div class="combos__head">
+        <h2 class="combos__word t-h2" data-reveal="lines" data-i18n-html="combos.titleHtml"><span class="line">Sety</span></h2>
+        <p class="combos__line t-body-lg" data-i18n="combos.line">Pro dva, pro partu i pro celou kancelář.</p>
+        <button class="btn" type="button" data-menu-open="chooser" data-chooser="combos" aria-haspopup="dialog" aria-expanded="false" data-i18n="combos.cta">Vybrat aplikaci</button>
+      </div>
+      <ul class="combos__list" data-combos role="list"></ul>
+      <p class="combos__office" data-office>Objednávka do kanceláře pro víc lidí? Zavolej na <a href="tel:+420734218560" data-fill="phone">+420 734 218 560</a> nebo napiš na <a href="mailto:objednavky@testoaryze.cz" data-fill="email">objednavky@testoaryze.cz</a>.</p>
+    </div>
+  </section>
+
+  <section id="why" data-section="why" hidden></section>
+
+  <section id="pickup" class="pickup" data-section="pickup">
+    <div class="pickup__inner k-container">
+      <div class="pickup__text">
+        <h2 class="pickup__word t-h2 is-long" data-reveal="lines" data-i18n-html="pickup.titleHtml"><span class="line">Vyzvedni</span> <span class="line">si to</span></h2>
+        <p class="pickup__line t-body-lg" data-i18n="pickup.line">Objednej v aplikaci, zvol vyzvednutí a přijď si pro to. Dárek za e-mail vydáváme jen tady.</p>
+        <dl class="pickup__facts">
+          <div>
+            <dt data-i18n="pickup.address">Adresa</dt>
+            <dd data-sample="true"><span class="pickup__street" data-fill="street">Krejnická 2021/1</span><span data-fill="city">148 00 Praha 4 – Chodov</span></dd>
+          </div>
+          <div>
+            <dt data-i18n="pickup.hours">Otevřeno</dt>
+            <dd class="pickup__hours tabular" data-sample="true"><span data-i18n="pickup.days">Po–Ne</span> <span data-fill="hours">11:00–22:00</span></dd>
+          </div>
+          <div>
+            <dt data-i18n="pickup.door">Jak najít dveře</dt>
+            <dd data-fill="door" data-sample="true">Vchod je přímo z ulice: tmavé dveře s rozsvíceným okénkem vedle průjezdu do dvora. Zazvoň u okénka a vydáme ti to do ruky.</dd>
+          </div>
+        </dl>
+        <a class="btn pickup__maps" href="https://www.google.com/maps/search/?api=1&query=Krejnick%C3%A1+2021/1,+148+00+Praha+4" data-link="google.profile" data-i18n="pickup.maps">Otevřít v Mapách Google</a>
+      </div>
+      <div class="pickup__visual">
+        <div class="map" data-sample="true">
+          <svg viewBox="0 0 800 600" role="img" aria-labelledby="map-title">
+            <title id="map-title" data-i18n="pickup.mapAlt">Plánek okolí výdejního okénka</title>
+            <rect class="m-block" width="800" height="600"/>
+            <path class="m-park" d="M560 352 L800 326 L800 600 L590 600 Z"/>
+            <path class="m-street" d="M-20 432 L820 342"/>
+            <path class="m-street" d="M-20 92 L820 2"/>
+            <path class="m-street" d="M-20 570 L560 508"/>
+            <path class="m-street" d="M118 -20 L176 620"/>
+            <path class="m-street" d="M344 -20 L402 620"/>
+            <path class="m-street" d="M552 -20 L590 360"/>
+            <path class="m-street" d="M700 -20 L728 330"/>
+            <path class="m-main" d="M-20 258 L820 168"/>
+            <path class="m-tram" d="M-20 258 L820 168"/>
+            <text class="m-label" transform="translate(446 362) rotate(-6.1)">Krejnická</text>
+            <rect class="m-halo" x="350" y="352" width="56" height="56" transform="rotate(45 378 380)"/>
+            <rect class="m-pin" x="366" y="368" width="24" height="24" transform="rotate(45 378 380)"/>
+            <rect class="m-tag" x="104" y="290" width="250" height="72"/>
+            <text class="m-tag-t" x="122" y="324" data-fill="brand">Imperial Food</text>
+            <text class="m-tag-s" x="122" y="348" data-fill="street">Krejnická 2021/1</text>
+          </svg>
+        </div>
+        <div class="pickup__door" data-reveal="photo"><img src="../media/imperial-food-place.webp" width="1350" height="896" loading="lazy" decoding="async" alt="Vchod do provozovny Imperial Food: černá cedule nad prosklenými dveřmi" data-i18n-attr="alt:pickup.doorAlt"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="signup" class="signup" data-section="signup">
+    <div class="signup__inner k-container">
+      <div class="signup__photo" data-reveal="photo"><img src="../media/gift-2.webp" width="900" height="900" loading="lazy" decoding="async" alt="Rolky a limonáda na pultu výdejního okénka" data-i18n-attr="alt:signup.giftAlt" data-sample="true"></div>
+      <div class="signup__text">
+        <h2 class="signup__word t-h2 is-long" data-reveal="lines" data-i18n-html="signup.titleHtml"><span class="line">Rolka nebo pití</span> <span class="line">zdarma</span></h2>
+        <p class="signup__line t-body-lg" data-i18n="signup.line">Nech nám e-mail a pošleme ti kód. Ukážeš ho při výdeji a dostaneš rolku nebo pití.</p>
+        <form class="form" data-signup novalidate>
+          <div class="form__fields" data-fields>
+            <div>
+              <label class="field-label" for="signup-email" data-i18n="signup.email">Tvůj e-mail</label>
+              <input class="input" id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="jmeno@email.cz" data-i18n-attr="placeholder:signup.placeholder" aria-describedby="err-email">
+            </div>
+            <p class="error" id="err-email" data-error="email" aria-live="polite" hidden></p>
+            <label class="check">
+              <input type="checkbox" name="consent" aria-describedby="err-consent">
+              <span><span data-i18n="signup.consent">Chci od vás dostávat e-maily s novinkami a akcemi, 1–2× měsíčně. Odhlásit se můžu kdykoli.</span> <a href="#privacy" data-no-scroll data-i18n="signup.privacy">Jak chráníme tvoje údaje</a></span>
+            </label>
+            <p class="error" id="err-consent" data-error="consent" aria-live="polite" hidden></p>
+            <button class="btn btn--fire" type="submit" data-i18n="signup.submit">Chci kód</button>
+            <p class="fine" data-i18n="signup.terms">Kód platí jednou na osobu a jen při vyzvednutí.</p>
+          </div>
+          <p class="form__success" data-success tabindex="-1" hidden data-i18n="signup.done">Hotovo. Potvrď odkaz v e-mailu, který jsme ti poslali, a kód dorazí hned potom.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="k-container">
+    <a class="footer__brand" href="#top" aria-label="Imperial Food"><svg class="wm__svg" viewBox="0 0 124 54" aria-hidden="true"><use href="#wm-lock"/></svg></a>
+    <div class="footer__grid">
+      <div>
+        <h2 data-i18n="footer.office">Firemní objednávky</h2>
+        <ul role="list" data-sample="true">
+          <li><a href="tel:+420734218560" data-fill="phone" data-contact="phone">+420 734 218 560</a></li>
+          <li><a href="mailto:objednavky@testoaryze.cz" data-fill="email" data-contact="email">objednavky@testoaryze.cz</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 data-i18n="footer.follow">Sleduj nás</h2>
+        <ul role="list" data-sample="true">
+          <li><a href="https://www.instagram.com/testoaryze/" data-contact="instagram">Instagram</a></li>
+          <li><a href="https://www.tiktok.com/@testoaryze" data-contact="tiktok">TikTok</a></li>
+        </ul>
+      </div>
+      <div class="footer__company">
+        <h2 data-i18n="footer.company">Provozovatel</h2>
+        <ul role="list" data-sample="true">
+          <li data-fill="company">Imperial Food s.r.o.</li>
+          <li data-i18n="footer.ico">IČO 217 45 397</li>
+          <li data-fill="seat">Krejnická 2021/1, 148 00 Praha 4</li>
+          <li class="footer__privacy"><a id="privacy" href="#privacy" data-no-scroll data-i18n="footer.privacy">Ochrana osobních údajů</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 data-i18n="lang.label">Jazyk</h2>
+        <ul role="list">
+          <li class="langs footer__langs">
+            <a data-lang-link href="../index.html" hreflang="cs" lang="cs">CS</a>
+            <a data-lang-link href="../en/index.html" hreflang="en" lang="en">EN</a>
+            <a data-lang-link href="../ru/index.html" hreflang="ru" lang="ru">RU</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- mobile menu -->
+<div id="menu" class="menu-overlay" data-menu hidden role="dialog" aria-modal="true" data-i18n-attr="aria-label:nav.menu" aria-label="Menu">
+  <div class="menu-overlay__top">
+    <a class="logo" href="#top" aria-label="Imperial Food"><svg class="wm__svg" viewBox="0 0 124 54" aria-hidden="true"><use href="#wm-lock"/></svg></a>
+    <button class="menu-overlay__close" type="button" data-menu-close data-i18n-attr="aria-label:nav.close" aria-label="Zavřít">✕</button>
+  </div>
+  <ul class="menu-overlay__links" role="list">
+    <li><a href="#pizza" data-i18n="nav.pizza">Pizza</a></li>
+    <li><a href="#sushi" data-i18n="nav.sushi">Sushi</a></li>
+    <li><a href="#combos" data-i18n="nav.combos">Sety</a></li>
+    <li><a href="#pickup" data-i18n="nav.pickup">Výdej</a></li>
+    <li><a href="#signup" data-i18n="nav.gift">Dárek</a></li>
+  </ul>
+  <p class="status" data-status data-open="true"><span class="status__dot" aria-hidden="true"></span><span data-status-text>Otevřeno do 22:00</span></p>
+  <nav class="langs" style="margin-top: var(--space-3)" data-i18n-attr="aria-label:lang.label" aria-label="Jazyk">
+    <a data-lang-link href="../index.html" hreflang="cs" lang="cs">CS</a>
+    <a data-lang-link href="../en/index.html" hreflang="en" lang="en">EN</a>
+    <a data-lang-link href="../ru/index.html" hreflang="ru" lang="ru">RU</a>
+  </nav>
+</div>
+
+<!-- app chooser: opened by the sticky bar, the header and the combos button -->
+<div id="chooser" class="chooser" data-cuisine="pizza" data-menu hidden role="dialog" aria-modal="true" aria-labelledby="chooser-title">
+  <div class="chooser__backdrop" data-menu-close></div>
+  <div class="chooser__sheet">
+    <div class="chooser__head">
+      <h2 id="chooser-title" class="chooser__title" data-i18n="chooser.title">Kde objednáš?</h2>
+      <button class="chooser__close" type="button" data-menu-close data-i18n-attr="aria-label:nav.close" aria-label="Zavřít">✕</button>
+    </div>
+    <fieldset class="switch" data-chooser-one>
+      <legend class="k-sr-only" data-i18n="switch.legend">Na co máš chuť?</legend>
+      <label class="switch__opt switch__opt--pizza"><input type="radio" name="cuisine-chooser" value="pizza" checked><span data-i18n="switch.pizza">Pizza</span></label>
+      <label class="switch__opt switch__opt--sushi"><input type="radio" name="cuisine-chooser" value="sushi"><span data-i18n="switch.sushi">Sushi</span></label>
+    </fieldset>
+    <div class="apps apps--stack" data-apps="chooser" data-track="chooser" data-chooser-one></div>
+    <div class="chooser__both" data-chooser-both hidden>
+      <p class="chooser__label" data-cuisine="pizza" data-i18n="pick.pizza">Objednej pizzu:</p>
+      <div class="apps" data-apps="pizza" data-track="chooser-combos"></div>
+      <p class="chooser__label" data-cuisine="sushi" data-i18n="pick.sushi">Objednej sushi:</p>
+      <div class="apps" data-apps="sushi" data-track="chooser-combos"></div>
+    </div>
+    <p class="fine"><span data-i18n="chooser.sub">Otevře se rovnou naše nabídka v aplikaci.</span> <span data-i18n="prices">Aktuální ceny a celé menu najdeš v aplikacích.</span></p>
+  </div>
+</div>
+
+<!-- sticky order bar (mobile): hidden while the hero app buttons are on screen -->
+<div class="bar" data-sticky-cta data-mobile-only inert aria-hidden="true">
+  <p class="bar__status status" data-status data-open="true"><span class="status__dot" aria-hidden="true"></span><span data-status-text>Otevřesadno do 22:00</span></p>
+  <button class="btn btn--accent bar__btn" type="button" data-menu-open="chooser" aria-haspopup="dialog" aria-expanded="false" data-i18n="bar.order">Objednat</button>
+</div>
+
+<script src="../data.js" defer></script>
+<script src="../i18n.js" defer></script>
+<script src="../site.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" defer></script>
+<script src="../kit/kit.js" defer></script>
+<script src="../motion.js" defer></script>
+</body>
+</html>
