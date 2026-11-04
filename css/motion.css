@@ -1,0 +1,62 @@
+/*
+  Motion, CSS side (the motion map is in js/motion.js).
+  Initial "hidden" states apply only under html.motion-ok, which motion.js sets when motion is allowed,
+  so without JS or with reduced motion everything is visible in its final state.
+*/
+@layer motion {
+  /* ---------- reveals ---------- */
+  /* headlines stay hidden until SplitText has split them (motion.js shows them after 3 s at the latest) */
+  .motion-ok [data-reveal="lines"]:not(.is-split) {
+    visibility: hidden;
+  }
+
+  /*
+    Photo wipe. Chromium's IntersectionObserver counts the target's own clip-path, so a fully clipped
+    observed element never reports as visible: the observed wrapper stays unclipped, its child carries the wipe.
+  */
+  .motion-ok [data-reveal="photo"]:not(.is-in) > * {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  [data-reveal="photo"] > * {
+    transition: clip-path var(--motion-wipe) var(--ease-out-expo);
+  }
+
+  /* ---------- dialogs ---------- */
+  .motion-ok .mobile-menu[open] {
+    animation: wipe-down var(--motion-menu) var(--ease-in-out) both;
+  }
+
+  .motion-ok .chooser[open] .chooser__sheet {
+    animation: sheet-up var(--motion-base) var(--ease-out-expo) both;
+  }
+
+  .motion-ok .chooser[open] .chooser__backdrop {
+    animation: fade-in var(--motion-fast) ease both;
+  }
+
+  @keyframes wipe-down {
+    from { clip-path: inset(0 0 100% 0); }
+    to { clip-path: inset(0); }
+  }
+
+  @keyframes sheet-up {
+    from { transform: translateY(100%); }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+  }
+
+  /* ---------- reduced motion: no transitions or animations anywhere ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

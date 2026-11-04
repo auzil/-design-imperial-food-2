@@ -1,305 +1,36 @@
 /*
-  Prototype kit — shared behaviors + the edit panel. No visual style. See README.md.
+  Edit panel — prototype only (safe to delete with this file and its <script> tag).
+  Moved unchanged from the prototype kit's kit.js; the page's own behaviours are in js/.
 
-  Behaviors (attributes in your HTML):
-    data-reveal="lines|fade|photo" [data-reveal-load]   entrance animations (GSAP+SplitText for lines if loaded)
-    data-ticker                                         marquee (content duplicated automatically)
-    a[href^="#"]                                        smooth anchor scroll (JS; never set scroll-behavior: smooth in CSS). data-no-scroll opts out
-    data-menu-open="<id>" / <div id data-menu hidden> / data-menu-close   full-screen menu
-    form data-steps > [data-step]… [data-next] [data-back] [data-progress] [data-success]
-    data-prefill="field=value"                           on a link/button: sets form fields (e.g. plan) before jumping to the form
-    data-sticky-cta [data-mobile-only]                  shown after [data-hero] leaves the viewport
-    data-count-to="1490" [data-locale] [data-currency]  counts up when visible
-    Kit.animateNumber(el, value, {locale, currency, duration})  for calculators
-
-  Line reveals: data-reveal="lines" splits once the headline's own font is loaded and never reverts, so the line
-    breaks stay as animated. Kit.resplit(el) after replacing el.innerHTML (language switch); Kit.unsplitAll() /
-    Kit.splitAll() for anything that needs plain DOM (the edit panel's Text mode does this).
-
-  Edit panel: open with Shift+E, or add #edit to the URL. Disabled by <html data-kit-panel="off">.
+  Open with Shift+E, or add #edit to the URL. Disabled by <html data-kit-panel="off"> (the static export sets it).
     <html data-kit-panel="client"> is the visitor version: no shortcuts (open it from a [data-try-edit] button via
     Kit.openPanel()), and "Copy my changes" produces a plain message — no /revise, no tool names.
     Tokens — fonts, colors, type scale, any :root variable, live; saved in this browser.
-    Text   — edit copy in place.
+    Text   — edit copy in place (headline splits are undone while editing, via window.pageMotion).
     Notes  — click any element and leave a comment.
     "Copy feedback" puts everything on the clipboard, ready to paste after /revise.
 */
 (() => {
   "use strict";
-  const Kit = (window.Kit = window.Kit || {});
   const root = document.documentElement;
-  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!reduceMotion) root.classList.add("kit-motion");
+  if (root.dataset.kitPanel === "off") return;
 
-  const ready = (fn) => (document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", fn) : fn());
+  const Kit = (window.Kit = window.Kit || {});
+  // Text mode needs plain DOM: js/motion.js owns the headline splits
+  Kit.unsplitAll = () => window.pageMotion?.unsplitAll();
+  Kit.splitAll = () => window.pageMotion?.splitAll();
+
   const storage = {
     get(k) { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch { return null; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode */ } },
     del(k) { try { localStorage.removeItem(k); } catch { /* ignore */ } },
   };
 
-  function observeOnce(el, cb, opts = { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }) {
-    if (!("IntersectionObserver" in window)) return cb();
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) { io.disconnect(); cb(); break; }
-    }, opts);
-    io.observe(el);
-  }
+  // outline on editable text while the Text mode is on
+  const editingStyle = document.createElement("style");
+  editingStyle.textContent = `.kit-editing [contenteditable="true"]:hover, .kit-editing [contenteditable="true"]:focus { outline: 1px dashed #3b5bdb; outline-offset: 2px; cursor: text; }`;
+  document.head.appendChild(editingStyle);
 
-  /* ---------------- reveal ---------------- */
-  function initReveal() {
-    document.querySelectorAll('[data-reveal="fade"], [data-reveal="photo"]').forEach((el) => {
-      if (reduceMotion) return el.classList.add("is-in");
-      observeOnce(el, () => el.classList.add("is-in"));
-    });
-
-    Kit.unsplitAll = Kit.splitAll = Kit.resplit = () => {}; // real versions below; no-ops without motion / SplitText
-    const lines = [...document.querySelectorAll('[data-reveal="lines"]')];
-    if (!lines.length) return;
-    const gsap = window.gsap;
-    const Split = window.SplitText;
-    const fallback = () => lines.forEach((el) => el.classList.add("is-split"));
-    setTimeout(fallback, 3000); // never leave text hidden
-    if (reduceMotion || !gsap || !Split) return fallback();
-    try { gsap.registerPlugin(Split); } catch { /* already registered */ }
-
-    // One instance per headline: { el, onLoad, split, tween }. The split is never reverted when the animation
-    // ends: reverting re-wraps the plain text, and its line breaks can differ from the ones that were animated.
-    // autoSplit re-splits (keeping the animation's progress) if the font arrives late or the viewport resizes.
-    const instances = (Kit._reveals = []);
-    function build(inst, animate) {
-      const { el, onLoad } = inst;
-      const opts = {
-        type: "lines", mask: "lines", autoSplit: true,
-        onSplit(self) {
-          // SplitText masks are exactly one line-box tall (overflow: clip). With tight display line-heights,
-          // descenders (g y p q j) and diacritics (Č Ř Ů Ö) stick out of the line box and get clipped. Clip with a
-          // clip-path that extends past the box instead: same mask effect, room for glyphs, no layout change.
-          (self.masks || []).forEach((m) => {
-            m.style.overflow = "visible";
-            m.style.clipPath = "inset(-0.25em -0.1em -0.35em -0.1em)";
-          });
-          el.classList.add("is-split");
-          if (!animate) return; // final state, no animation
-          const fresh = !inst.tween; // first split of this headline; later ones keep the progress (autoSplit)
-          inst.tween = gsap.from(self.lines, {
-            // start each line fully below its (extended) mask: line height + bottom room + top overhang
-            y: (i, line) => line.offsetHeight + parseFloat(getComputedStyle(line).fontSize) * 0.65,
-            duration: 0.9, ease: "expo.out", stagger: 0.08, paused: fresh && !onLoad,
-          });
-          return inst.tween;
-        },
-      };
-      inst.split = el._kitSplit = typeof Split.create === "function" ? Split.create(el, opts) : new Split(el, opts);
-    }
-    // wait for the headline's own font (document.fonts.ready resolves at once when nothing has asked for it yet)
-    const fontReady = (el) => {
-      if (!document.fonts?.load) return Promise.resolve();
-      const cs = getComputedStyle(el);
-      const font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-      return Promise.race([document.fonts.load(font, el.textContent), new Promise((r) => setTimeout(r, 2500))]).catch(() => {});
-    };
-    lines.forEach((el) => {
-      const inst = { el, onLoad: el.hasAttribute("data-reveal-load"), split: null, tween: null };
-      instances.push(inst);
-      fontReady(el).then(() => {
-        if (inst.split || inst.skipped) return;
-        build(inst, true);
-        if (!inst.onLoad) observeOnce(el, () => inst.tween?.play());
-      });
-    });
-
-    // For the edit panel (contenteditable needs plain DOM) and for code that replaces a node's innerHTML.
-    const unsplit = (inst) => { inst.tween?.revert?.(); inst.tween = null; inst.split?.revert(); inst.split = null; inst.el._kitSplit = null; };
-    Kit.unsplitAll = () => instances.forEach((inst) => { if (inst.split) unsplit(inst); else inst.skipped = true; });
-    Kit.splitAll = () => instances.forEach((inst) => { inst.skipped = false; if (!inst.split) build(inst, false); });
-    Kit.resplit = (el) => {
-      const inst = instances.find((x) => x.el === el);
-      if (!inst) return;
-      // if the page replaced el.innerHTML, the old lines are detached and revert() would put the OLD text back
-      const replaced = inst.split && !inst.split.lines.some((l) => el.contains(l));
-      const html = el.innerHTML;
-      if (inst.split) unsplit(inst);
-      if (replaced) el.innerHTML = html;
-      inst.skipped = false;
-      build(inst, false);
-    };
-  }
-
-  /* ---------------- ticker ---------------- */
-  function initTicker() {
-    document.querySelectorAll("[data-ticker]").forEach((el) => {
-      if (el.querySelector(".k-ticker-track")) return;
-      const track = document.createElement("div");
-      track.className = "k-ticker-track";
-      while (el.firstChild) track.appendChild(el.firstChild);
-      const copy = track.cloneNode(true);
-      copy.setAttribute("aria-hidden", "true");
-      const wrap = document.createElement("div");
-      wrap.className = "k-ticker-track";
-      [...track.childNodes, ...copy.childNodes].forEach((n) => wrap.appendChild(n));
-      el.appendChild(wrap);
-    });
-  }
-
-  /* ---------------- anchors ---------------- */
-  // Smooth anchor scrolling in JS: `scroll-behavior: smooth` in CSS breaks ScrollTrigger's refresh.
-  // The sticky-header offset comes from CSS `scroll-margin-top` on the targets.
-  function initAnchors() {
-    document.addEventListener("click", (e) => {
-      const a = e.target.closest('a[href^="#"]');
-      if (!a || e.defaultPrevented || a.hasAttribute("data-no-scroll")) return;
-      const hash = a.getAttribute("href");
-      if (hash === "#" || hash.length < 2) return;
-      let target = null;
-      try { target = document.getElementById(decodeURIComponent(hash.slice(1))); } catch (_) {}
-      if (!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-      if (location.hash !== hash) history.pushState(null, "", hash);
-      if (!target.hasAttribute("tabindex") && !/^(a|button|input|select|textarea)$/i.test(target.tagName)) target.setAttribute("tabindex", "-1");
-      target.focus({ preventScroll: true });
-    });
-  }
-
-  /* ---------------- menu ---------------- */
-  function initMenu() {
-    let lastOpener = null;
-    const focusables = (m) => [...m.querySelectorAll('a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])')];
-    const close = (m) => {
-      if (!m || m.hidden) return;
-      m.hidden = true;
-      m.classList.remove("is-opening");
-      root.classList.remove("k-locked");
-      document.querySelectorAll(`[data-menu-open="${m.id}"]`).forEach((b) => b.setAttribute("aria-expanded", "false"));
-      lastOpener?.focus();
-    };
-    const open = (m, opener) => {
-      lastOpener = opener;
-      m.hidden = false;
-      m.classList.add("is-opening");
-      root.classList.add("k-locked");
-      opener?.setAttribute("aria-expanded", "true");
-      focusables(m)[0]?.focus();
-    };
-    document.addEventListener("click", (e) => {
-      const opener = e.target.closest("[data-menu-open]");
-      if (opener) {
-        const m = document.getElementById(opener.dataset.menuOpen);
-        if (m) { e.preventDefault(); m.hidden ? open(m, opener) : close(m); }
-        return;
-      }
-      const menu = e.target.closest("[data-menu]");
-      if (menu && (e.target.closest("[data-menu-close]") || e.target.closest("a[href]"))) close(menu);
-    });
-    document.addEventListener("keydown", (e) => {
-      const m = document.querySelector("[data-menu]:not([hidden])");
-      if (!m) return;
-      if (e.key === "Escape") close(m);
-      if (e.key === "Tab") {
-        const f = focusables(m);
-        if (!f.length) return;
-        if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f.at(-1).focus(); }
-        else if (!e.shiftKey && document.activeElement === f.at(-1)) { e.preventDefault(); f[0].focus(); }
-      }
-    });
-  }
-
-  /* ---------------- multi-step form ---------------- */
-  function initSteps() {
-    document.querySelectorAll("form[data-steps]").forEach((form) => {
-      const steps = [...form.querySelectorAll("[data-step]")];
-      const success = form.querySelector("[data-success]") || form.parentElement?.querySelector("[data-success]");
-      const progress = form.querySelectorAll("[data-progress]");
-      let i = 0;
-      const show = (n) => {
-        i = Math.max(0, Math.min(n, steps.length - 1));
-        steps.forEach((s, k) => s.classList.toggle("is-active", k === i));
-        form.style.setProperty("--progress", String((i + 1) / steps.length));
-        progress.forEach((p) => {
-          const tpl = p.dataset.progress || "Step {n} of {total}";
-          p.textContent = tpl.replace("{n}", i + 1).replace("{total}", steps.length);
-        });
-      };
-      const valid = () => {
-        const fields = [...steps[i].querySelectorAll("input, select, textarea")];
-        for (const f of fields) if (!f.checkValidity()) { f.reportValidity(); f.focus(); return false; }
-        return true;
-      };
-      form.addEventListener("click", (e) => {
-        if (e.target.closest("[data-next]")) { e.preventDefault(); if (valid()) { show(i + 1); steps[i].querySelector("input, select, textarea, button")?.focus(); } }
-        if (e.target.closest("[data-back]")) { e.preventDefault(); show(i - 1); }
-      });
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        if (!valid()) return;
-        steps.forEach((s) => s.classList.remove("is-active"));
-        form.querySelectorAll("[data-next], [data-back], [type=submit]").forEach((b) => (b.hidden = true));
-        if (success) { success.hidden = false; success.setAttribute("tabindex", "-1"); success.focus(); }
-      });
-      show(0);
-    });
-
-    document.addEventListener("click", (e) => {
-      const el = e.target.closest("[data-prefill]");
-      if (!el) return;
-      for (const pair of el.dataset.prefill.split("&")) {
-        const [name, value = ""] = pair.split("=").map(decodeURIComponent);
-        document.querySelectorAll(`form [name="${CSS.escape(name)}"]`).forEach((f) => {
-          if (f.type === "radio" || f.type === "checkbox") f.checked = f.value === value;
-          else f.value = value;
-          f.dispatchEvent(new Event("change", { bubbles: true }));
-        });
-      }
-    });
-  }
-
-  /* ---------------- sticky CTA ---------------- */
-  function initSticky() {
-    const bar = document.querySelector("[data-sticky-cta]");
-    if (!bar) return;
-    const hero = document.querySelector("[data-hero]") || document.querySelector("main section, section");
-    // While hidden (only translated off-screen) the bar must not be focusable or announced.
-    const show = (v) => { bar.classList.toggle("is-visible", v); bar.inert = !v; v ? bar.removeAttribute("aria-hidden") : bar.setAttribute("aria-hidden", "true"); };
-    if (!hero || !("IntersectionObserver" in window)) return show(true);
-    show(false);
-    new IntersectionObserver(([e]) => show(!e.isIntersecting)).observe(hero);
-  }
-
-  /* ---------------- numbers ---------------- */
-  function fmt(value, { locale, currency, decimals = 0 } = {}) {
-    const opts = currency ? { style: "currency", currency, maximumFractionDigits: decimals } : { maximumFractionDigits: decimals };
-    try { return new Intl.NumberFormat(locale || document.documentElement.lang || "en", opts).format(value); }
-    catch { return String(Math.round(value)); }
-  }
-  Kit.format = fmt;
-  Kit.animateNumber = function animateNumber(el, to, opts = {}) {
-    const from = Number(el.dataset.value ?? 0);
-    el.dataset.value = String(to);
-    if (reduceMotion || opts.duration === 0) { el.textContent = fmt(to, opts); return; }
-    const dur = opts.duration ?? 450;
-    const t0 = performance.now();
-    cancelAnimationFrame(el._kitRaf);
-    const step = (t) => {
-      const p = Math.min(1, (t - t0) / dur);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = fmt(from + (to - from) * eased, opts);
-      if (p < 1) el._kitRaf = requestAnimationFrame(step);
-    };
-    el._kitRaf = requestAnimationFrame(step);
-  };
-  function initCounters() {
-    document.querySelectorAll("[data-count-to]").forEach((el) => {
-      const to = Number(el.dataset.countTo);
-      const opts = { locale: el.dataset.locale, currency: el.dataset.currency, duration: 1200 };
-      if (reduceMotion) return (el.textContent = fmt(to, opts));
-      observeOnce(el, () => Kit.animateNumber(el, to, opts));
-    });
-  }
-
-  /* =====================================================================
-     Edit panel
-     ===================================================================== */
   const FONTS = [
     // [family, weights, kind] — all with Latin Extended + Cyrillic on Google Fonts
     ["Onest", "300;400;500;600;700;800;900", "sans-serif"],
@@ -351,7 +82,7 @@
       }
     };
     for (const sheet of document.styleSheets) { try { visit(sheet.cssRules); } catch { /* cross-origin or file:// sheet */ } }
-    // kit.css can't be read on file:// (unique origin) — add its knobs from computed style
+    // external stylesheets can't be read on file:// (unique origin) — add the scale knobs from computed style
     const cs = getComputedStyle(root);
     for (const name of ["--display-scale", "--heading-scale", "--body-scale"]) {
       const v = cs.getPropertyValue(name).trim();
@@ -764,17 +495,5 @@
     render();
   }
 
-  ready(() => {
-    initTicker();
-    initReveal();
-    initMenu();
-    initAnchors(); // after initMenu: the menu closes (and unlocks scroll) before the anchor scrolls
-    initSteps();
-    initSticky();
-    initCounters();
-    // <html data-kit-panel="off"> (export-final default) removes the edit panel entirely
-    if (root.dataset.kitPanel !== "off") {
-      try { initPanel(); } catch (err) { console.warn("Kit panel failed:", err); }
-    }
-  });
+  try { initPanel(); } catch (err) { console.warn("Kit panel failed:", err); }
 })();
